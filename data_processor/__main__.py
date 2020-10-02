@@ -1,6 +1,15 @@
 import argparse
-from data_processor import processor
+from pyspark import SparkConf, SparkContext
+from pyspark.sql.session import SparkSession
+import processor
 
+def spark_setup():
+    conf = SparkConf()
+    sc = SparkContext().getOrCreate(conf)
+    spark = SparkSession(sc)
+    spark.sparkContext.setLogLevel('WARN')
+    return spark
+    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'Input and output file names')
     parser.add_argument('student_file', help='the path to the file of student information')
@@ -10,4 +19,6 @@ if __name__ == '__main__':
 
     print(args)
 
-    processor.run(args.student_file, args.teacher_file, args.output_file)
+    spark = spark_setup()
+
+    processor.run(spark, args.student_file, args.teacher_file, args.output_file)
