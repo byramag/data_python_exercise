@@ -1,14 +1,15 @@
 from pyspark.sql import SparkSession
 import pytest
+import os
 
 from ..data_transformer import DataTransformer
 
 class TestDataTransformer:
     spark = SparkSession.builder.getOrCreate()
-    transformer = DataTransformer(self.spark, 'test_schema.json')
+    transformer = DataTransformer(self.spark, os.getcwd() + '/data_processor/tests/test_data/test_schema.json')
 
     def test_load_output_schema(self):
-        path = 'test_schema.json'
+        path = os.getcwd() + '/data_processor/tests/test_data/test_schema.json'
         schema = self.transformer.load_output_schema(schema_path=path)
         assert schema.keys() == ['col1', 'col2']
     

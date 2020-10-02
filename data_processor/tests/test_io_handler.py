@@ -7,24 +7,24 @@ class TestIOHandler:
     io = IOHandler(self.spark)
 
     def test_spark_read_file_csv(self):
-        path = 'test.csv'
+        path = os.getcwd() + '/data_processor/tests/test_data/test.csv'
         df = self.io.spark_read_file(file_path=path)
         assert df.count == 2
 
     def test_spark_read_file_csv_delim(self):
-        path = 'test_data/test.csv'
+        path = os.getcwd() + '/data_processor/tests/test_data/test.csv'
         delim = ','
         df = self.io.spark_read_file(path, delim)
         assert df.count == 2
 
     def test_spark_read_file_no_ext(self):
-        path = 'test_data/test'
+        path = os.getcwd() + '/data_processor/tests/test_data/test'
         delim = ','
         df = self.io.spark_read_file(path, delim)
         assert df.count == 3
 
     def test_write_report(self):
-        out_path = 'test_data/test_report.json'
+        out_path = os.getcwd() + '/data_processor/tests/test_data/test_report.json'
         df = self.spark.createDataFrame(
             [(1,2,3), (4,5,6)],
             ['a','b','c']
