@@ -8,6 +8,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
 logger = logging.getLogger(__name__)
 
 def join_dfs(student_df, teacher_df, join_key):
+    """ Joins dataframes to combine student and teacher data """
+
+    # Updating column names to disambiguate after join
     student_df = student_df.select([F.col(c).alias('s_' + c) for c in student_df.columns])
     teacher_df = teacher_df.select([F.col(c).alias('t_' + c) for c in teacher_df.columns])
 
@@ -26,13 +29,14 @@ def run(spark, student_file, teacher_file, out_path='report.json'):
     except FileNotFoundError as e:
         logger.error(e)
         return
-
-    transformer = DataTransformer(spark)
+    
     joined_df = join_dfs(student_df, teacher_df, 'cid')
     logger.info("Finished joining dataframes")
+    
+    transformer = DataTransformer(spark)
     output_df = transformer.fit_output_schema(joined_df)
     logger.info("Fit data to output schema:")
     output_df.show()
 
     io.write_report(output_df, 'json', out_path)
-    
+    logger.info("Processing completed")
