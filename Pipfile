@@ -1,0 +1,12 @@
+[packages]
+behave = "==1.2.6"
+pytest = "==5.4.1"
+pytest-cov = "==2.8.1"
+pyspark = "==2.4.5"
+
+[requires]
+python-version = "3.7"
+
+[scripts]
+generate-report = "spark-submit data_processor/__main__.py ./data/students.csv ./data/teachers.parquet"
+unit-test = "env PYSPARK_PYTHON=python3 env PYTHONPATH=data_processor env COVERAGE_FILE=.coverage.unit python -m pytest --cov=data_processor data_processor/tests"
