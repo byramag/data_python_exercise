@@ -30,9 +30,9 @@ def run(spark, student_file, teacher_file, out_path='report.json'):
     io_handler = IOHandler(spark)
     try:
         student_df = io_handler.spark_read_file(student_file, delim='_')
-        logger.info("Successfully loaded student file from " + student_file)
+        logger.info("Successfully loaded student file from %s", student_file)
         teacher_df = io_handler.spark_read_file(teacher_file)
-        logger.info("Successfully loaded teacher file from " + teacher_file)
+        logger.info("Successfully loaded teacher file from %s", teacher_file)
     except FileNotFoundError as error_message:
         logger.error(error_message)
         return

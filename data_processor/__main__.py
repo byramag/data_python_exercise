@@ -29,9 +29,16 @@ if __name__ == '__main__':
 
     spark = spark_setup()
 
-    processor.run(
-        spark,
-        input_args.student_file,
-        input_args.teacher_file,
-        input_args.output_file
-    )
+    if input_args.output_file:
+        processor.run(
+            spark,
+            input_args.student_file,
+            input_args.teacher_file,
+            input_args.output_file
+        )
+    else:
+        processor.run(
+            spark,
+            input_args.student_file,
+            input_args.teacher_file
+        )
